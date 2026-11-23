@@ -68,8 +68,8 @@ CI 의 액션은 모두 커밋 SHA 로 고정한다(버전은 주석). 올릴 �
 - Pages 커스텀 도메인 + Enforce HTTPS. `http://`·`www`·`thishw.github.io/nammunoptical/` 는 모두 `https://nammunoptical.com/` 으로 301
 - 분석: GTM `GTM-WP3P69JF` → GA4 `G-4EF3MVLQYH` (thishw.op@gmail.com), 실시간 수집 확인
 - 검색엔진: 구글 서치콘솔(sc-domain, DNS TXT 인증, sitemap 2개 성공) · Bing(GSC 가져오기, sitemap·RSS 제출) · IndexNow 키 `public/cc71b991….txt`
-- 네이버 서치어드바이저: 사이트 등록, 인증 파일 `public/naverb95d….html` + 메타 태그 배포 — 소유확인 버튼은 CAPTCHA 라 사람이 누른다
-- 다음 웹마스터도구: 인증 문구는 `src/pages/robots.txt.ts` — 인증은 사이트 URL + PIN 로그인이 필요
+- 네이버 서치어드바이저: 소유확인 완료(인증 파일 `public/naverb95d….html` + 메타), 사이트맵·RSS 제출, 주요 7페이지 수집 요청
+- 다음 웹마스터도구: 인증 완료(사이트 URL + 운영자 PIN 로그인). 인증 문구는 `src/pages/robots.txt.ts` — PIN 재발급 시 문구가 바뀌므로 함께 교체. 사이트맵·RSS Seed 와 홈 수집요청 등록
 
 ## 후속
 
