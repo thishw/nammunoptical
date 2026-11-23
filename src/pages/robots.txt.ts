@@ -11,8 +11,8 @@ export const GET: APIRoute = ({ site }) =>
       '',
       `Sitemap: ${new URL('/sitemap-index.xml', site).toString()}`,
       '',
-      // 다음(Daum) 웹마스터도구 소유확인 (2026-11-23)
-      '#DaumWebMasterTool:5b849d833b427f66f15b9fa6c576cfd0896cf89fd2c6cc42951ea533ee1cb567:upewRfgI5y6IkdBZlCoHBQ==',
+      // 다음(Daum) 웹마스터도구 소유확인 (2026-11-24 PIN 재발급)
+      '#DaumWebMasterTool:ac03800880fa86c97c00f952dcffe94ebd2d468b440d3e864481e89bbc43c1d0:4djnnmDYbaXJEU0i2qqWPQ==',
       '',
     ].join('\n'),
     { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
