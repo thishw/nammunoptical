@@ -62,8 +62,12 @@ CI 의 액션은 모두 커밋 SHA 로 고정한다(버전은 주석). 올릴 �
 - 가이드 글 추가: `src/content/guide/<slug>.md` → 빌드하면 목록·sitemap·RSS·llms.txt 에 자동 반영.
 - 운영자에게 새로 확인한 사실은 `store.ts` 에 `// 운영자 확인 YYYY-MM-DD` 주석과 함께 넣고, 스펙의 "운영자 확인" 표에 기록한다.
 
-## 후속 (사이트 공개 후)
+## 공개 상태 (2026-11-23)
 
-1. DNS: `nammunoptical.com` → GitHub Pages (apex A/AAAA, `www` CNAME → `thishw.github.io`), Pages 에서 Enforce HTTPS
-2. 구글 서치콘솔(Domain property, DNS TXT)·네이버 서치어드바이저 등록 → 소유확인 코드는 `src/data/site.ts`, sitemap(`/sitemap-index.xml`) 제출
-3. 네이버 스마트플레이스 영업시간·소개글·편의시설을 사이트와 같은 값으로
+- https://nammunoptical.com 공개. Cloudflare DNS(DNS only): apex A/AAAA → GitHub Pages, `www` CNAME → `thishw.github.io`, GitHub 도메인 인증 TXT `_github-pages-challenge-thishw`
+- Pages 커스텀 도메인 + Enforce HTTPS. `http://`·`www`·`thishw.github.io/nammunoptical/` 는 모두 `https://nammunoptical.com/` 으로 301
+
+## 후속
+
+1. 구글 서치콘솔(Domain property, DNS TXT)·네이버 서치어드바이저 등록 → 소유확인 코드는 `src/data/site.ts`, sitemap(`/sitemap-index.xml`) 제출
+2. 네이버 스마트플레이스 영업시간·소개글·편의시설을 사이트와 같은 값으로
