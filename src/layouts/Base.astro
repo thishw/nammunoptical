@@ -133,7 +133,7 @@ const current = (href: string) => (href === '/' ? path === '/' : path.startsWith
             <li><a href="/guide/">안경 가이드</a></li>
             <li><a href="/location/">오시는 길</a></li>
             <li><a href="/faq/">자주 묻는 질문</a></li>
-            <li><a href={store.links.naverPlace} rel="noopener" target="_blank">네이버 지도에서 보기<span class="sr-only"> (새 창)</span></a></li>
+            <li><a href={store.links.naverPlace} rel="noopener noreferrer" target="_blank">네이버 지도에서 보기<span class="sr-only"> (새 창)</span></a></li>
           </ul>
         </div>
       </div>
@@ -146,8 +146,8 @@ const current = (href: string) => (href === '/' ? path === '/' : path.startsWith
 
   <nav class="action-bar" aria-label="빠른 연락">
     <a href={telHref} data-track="call_bar"><Icon name="phone" />전화하기</a>
-    <a href={store.links.naverDirections} target="_blank" rel="noopener" data-track="directions_bar"><Icon name="route" />길찾기<span class="sr-only"> (새 창)</span></a>
-    <a href={store.links.naverPlace} target="_blank" rel="noopener" data-track="naver_place_bar"><Icon name="map" />지도<span class="sr-only"> (새 창)</span></a>
+    <a href={store.links.naverDirections} target="_blank" rel="noopener noreferrer" data-track="directions_bar"><Icon name="route" />길찾기<span class="sr-only"> (새 창)</span></a>
+    <a href={store.links.naverPlace} target="_blank" rel="noopener noreferrer" data-track="naver_place_bar"><Icon name="map" />지도<span class="sr-only"> (새 창)</span></a>
   </nav>
 </body>
 </html>

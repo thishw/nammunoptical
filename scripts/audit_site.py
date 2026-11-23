@@ -106,6 +106,7 @@ class Page(HTMLParser):
             [],
             [],
         )
+        self.blank_links = []  # target=_blank 링크의 (href, rel)
         self.meta, self.lang, self.h1, self.title = {}, None, 0, ""
         self._in_title = self._in_ld = False
         self._skip = 0
@@ -133,6 +134,8 @@ class Page(HTMLParser):
             self.canonicals.append(a.get("href", ""))
         elif tag == "a" and a.get("href"):
             self.links.append(a["href"])
+            if a.get("target") == "_blank":
+                self.blank_links.append((a["href"], (a.get("rel") or "").split()))
         elif tag == "img":
             self.images.append(a)
         elif tag == "script":
@@ -258,6 +261,12 @@ def main():
                 err(f"{where}: og:image 없음")
         elif p.canonicals:
             err(f"{where}: noindex 페이지에 canonical 있음")
+
+        # 새 창 링크는 opener·referrer 를 넘기지 않는다
+        for href, rel in p.blank_links:
+            missing = [r for r in ("noopener", "noreferrer") if r not in rel]
+            if missing:
+                err(f"{where}: target=_blank 링크에 rel {'/'.join(missing)} 없음 → {href[:60]}")
 
         # JSON-LD
         if not p.jsonld:

@@ -26,8 +26,8 @@ const mapSrc = `https://maps.google.com/maps?q=${store.geo.lat},${store.geo.lng}
 >
   <PageHero eyebrow="오시는 길" title={`${sub.station} ${sub.exit}에서 걸어서 ${sub.walkMin}분`} lead={`${store.address.full} · ${store.landmark}`}>
     <div class="btn-row hero-btns">
-      <a class="btn btn--primary" href={store.links.naverDirections} target="_blank" rel="noopener"><Icon name="route" />네이버 길찾기<span class="sr-only"> (새 창)</span></a>
-      <a class="btn btn--ghost" href={store.links.kakaoMap} target="_blank" rel="noopener"><Icon name="map" />카카오맵<span class="sr-only"> (새 창)</span></a>
+      <a class="btn btn--primary" href={store.links.naverDirections} target="_blank" rel="noopener noreferrer"><Icon name="route" />네이버 길찾기<span class="sr-only"> (새 창)</span></a>
+      <a class="btn btn--ghost" href={store.links.kakaoMap} target="_blank" rel="noopener noreferrer"><Icon name="map" />카카오맵<span class="sr-only"> (새 창)</span></a>
       <a class="btn btn--ghost" href={telHref}><Icon name="phone" />{store.phone}</a>
     </div>
   </PageHero>
@@ -36,7 +36,7 @@ const mapSrc = `https://maps.google.com/maps?q=${store.geo.lat},${store.geo.lng}
     <div class="container loc-grid">
       <div class="map-wrap">
         <iframe src={mapSrc} title="남문안경 위치 지도" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" tabindex="-1" aria-hidden="true"></iframe>
-        <a class="map-overlay" href={store.links.naverPlace} target="_blank" rel="noopener">
+        <a class="map-overlay" href={store.links.naverPlace} target="_blank" rel="noopener noreferrer">
           <span><Icon name="external" />네이버 지도에서 크게 보기<span class="sr-only"> (새 창)</span></span>
         </a>
       </div>

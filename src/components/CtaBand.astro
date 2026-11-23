@@ -12,7 +12,7 @@ const { title = '궁금한 점은 전화로 편하게 물어보세요' } = Astro
     </div>
     <div class="btn-row">
       <a class="btn btn--light" href={telHref}><Icon name="phone" />{store.phone}</a>
-      <a class="btn btn--outline-light" href={store.links.naverDirections} target="_blank" rel="noopener"><Icon name="route" />길찾기</a>
+      <a class="btn btn--outline-light" href={store.links.naverDirections} target="_blank" rel="noopener noreferrer"><Icon name="route" />길찾기<span class="sr-only"> (새 창)</span></a>
     </div>
   </div>
 </section>
