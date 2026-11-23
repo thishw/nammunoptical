@@ -6,3 +6,5 @@ dist/
 __pycache__/
 .ruff_cache/
 .pytest_cache/
+# 운영 계정·PIN 등 로컬 전용 메모 — 절대 커밋하지 않는다 (공개 저장소)
+.local/
