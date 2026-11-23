@@ -23,12 +23,12 @@ export const store = {
   address: {
     full: '경기도 부천시 소사구 경인로 212-1',
     short: '부천시 소사구 경인로 212-1',
-    lot: '심곡본동 667-9',
+    lot: '심곡본동 667-9', // 운영자 확인 2026-11-23 (네이버 플레이스 15008513 과 일치)
     region: '경기도',
     locality: '부천시',
     district: '소사구',
     street: '경인로 212-1',
-    postalCode: '14711' as string | null, // 도로명주소 조회(juso) 2026-11-23
+    postalCode: '14711' as string | null, // 운영자 확인 2026-11-23
   },
   geo: { lat: 37.4831924, lng: 126.7789727 },
   landmark: '부천자유시장 맞은편',
