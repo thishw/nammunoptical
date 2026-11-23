@@ -2,7 +2,8 @@
 export const siteConfig = {
   // GTM 컨테이너 nammunoptical.com (thishw.op@gmail.com). GA4 G-4EF3MVLQYH 는 GTM 안의 Google 태그로 로드 — 사이트에 gtag 를 따로 넣지 않는다(중복 수집).
   gtmId: 'GTM-WP3P69JF' as string | null,
-  naverSiteVerification: null as string | null,
+  // 네이버 서치어드바이저 (HTML 태그). 같은 사이트의 HTML 파일 인증은 public/naverb95d….html
+  naverSiteVerification: 'e69f318c3e1035d914c99b6915720536f95df25a' as string | null,
   googleSiteVerification: null as string | null,
 };
 

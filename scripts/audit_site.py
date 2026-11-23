@@ -48,6 +48,7 @@ PHONE_INTL = ts_value("phoneIntl")
 STREET = ts_value("street")
 HOURS = f"{ts_value('opens')}–{ts_value('closes')}"
 BRAND_GROUPS = [ts_brands(g) for g in ("lenses", "frames", "sunglasses", "contactLenses")]
+VERIFY_FILE_RE = re.compile(r"(?:naver[0-9a-f]{32}|google[0-9a-f]{16})\.html")
 FORBIDDEN = ["최고", "1위", "No.1", "NO.1", "넘버원", "완벽"]
 PHONE_RE = re.compile(r"(?<![\d+])0\d{1,2}[-. ]\d{3,4}[-. ]\d{4}(?!\d)")
 # "등" 은 단어 경계 또는 조사가 붙은 형태만 인정 ("등록·등산·동등" 제외)
@@ -227,7 +228,8 @@ def main():
     errors = []
     err = errors.append
 
-    files = sorted(dist.rglob("*.html"))
+    # 검색엔진 소유확인 파일(naver….html, google….html)은 한 줄 텍스트라 페이지 검사 대상이 아니다.
+    files = sorted(f for f in dist.rglob("*.html") if not VERIFY_FILE_RE.fullmatch(f.name))
     pages = {f: Page(f) for f in files}
     indexable = {
         f: p for f, p in pages.items() if "noindex" not in p.meta.get("robots", "")
