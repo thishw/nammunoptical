@@ -1,0 +1,142 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import FaqList from '../../components/FaqList.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { store } from '../../data/store';
+// 바이라인은 매장(조직)만 — 개인 감수 표기는 운영자 확인 후 (스펙 미결 6)
+import { articleSchema, faqSchema, abs } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guide');
+  return guides.map((g) => ({ params: { slug: g.id }, props: { g } }));
+}
+const { g } = Astro.props;
+const { Content, headings } = await render(g);
+const site = Astro.site!;
+const path = `/guide/${g.id}/`;
+const fmt = (d: Date) => d.toISOString().slice(0, 10).replaceAll('-', '.');
+const others = (await getCollection('guide')).filter((o) => o.id !== g.id).slice(0, 4);
+const toc = headings.filter((h) => h.depth === 2);
+const schema: object[] = [
+  articleSchema(site, {
+    title: g.data.title,
+    description: g.data.description,
+    path,
+    published: g.data.published,
+    updated: g.data.updated,
+    image: abs(site, '/og-default.jpg'),
+  }),
+];
+if (g.data.faq.length) schema.push(faqSchema(g.data.faq));
+const crumbs = [
+  { name: '홈', path: '/' },
+  { name: '안경 가이드', path: '/guide/' },
+  { name: g.data.title, path },
+];
+---
+<Base title={`${g.data.title} | 남문안경 안경 가이드`} description={g.data.description} crumbs={crumbs} schema={schema} ogType="article">
+  <section class="page-hero">
+    <div class="container narrow">
+      <p class="eyebrow">안경 가이드</p>
+      <h1>{g.data.title}</h1>
+      <p class="meta">
+        <span>{store.name}</span>
+        <span>작성 <time datetime={g.data.published.toISOString().slice(0, 10)}>{fmt(g.data.published)}</time></span>
+        <span>수정 <time datetime={g.data.updated.toISOString().slice(0, 10)}>{fmt(g.data.updated)}</time></span>
+      </p>
+    </div>
+  </section>
+  <div class="section">
+    <div class="container narrow">
+      <div class="summary-box">
+        <strong>핵심 요약</strong>
+        <p>{g.data.summary}</p>
+      </div>
+      {toc.length > 2 && (
+        <nav class="toc" aria-label="목차">
+          <p>목차</p>
+          <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+        </nav>
+      )}
+      <article class="prose">
+        <Content />
+        {g.data.faq.length > 0 && (
+          <>
+            <h2 id="faq">자주 묻는 질문</h2>
+            <FaqList items={g.data.faq} />
+          </>
+        )}
+        <h2 id="sources">참고 자료</h2>
+        <ul class="sources">
+          {g.data.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener nofollow">{s.title}<Icon name="external" /></a></li>)}
+        </ul>
+        <p class="notice">이 글은 일반적인 정보이며 개인의 눈 상태에 대한 진단을 대신하지 않습니다. 갑작스러운 시력 저하, 통증, 충혈, 번쩍임이 있으면 안과 진료를 받으세요.</p>
+      </article>
+    </div>
+  </div>
+  {others.length > 0 && (
+    <section class="section section--tint">
+      <div class="container">
+        <h2>다른 가이드</h2>
+        <div class="grid grid--2">
+          {others.map((o) => (
+            <a class="card" href={`/guide/${o.id}/`}>
+              <h3>{o.data.title}</h3>
+              <p>{o.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+  <CtaBand title="내 눈에 맞는 안경, 직접 상담받아 보세요" />
+</Base>
+<style>
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    color: var(--ink-3);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  .toc {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 18px 22px;
+    margin-bottom: 8px;
+  }
+  .toc p {
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+  .toc ol {
+    margin: 0;
+    padding-left: 1.2em;
+  }
+  .toc a {
+    text-decoration: none;
+    color: var(--ink-2);
+  }
+  .toc a:hover {
+    color: var(--green);
+  }
+  .sources {
+    font-size: 0.93rem;
+  }
+  .sources a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .sources :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+  .notice {
+    margin-top: 28px;
+  }
+</style>

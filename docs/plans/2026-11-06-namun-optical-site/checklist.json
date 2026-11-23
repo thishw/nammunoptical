@@ -1,0 +1,26 @@
+[
+  {
+    "id": "C1",
+    "description": "의존성 설치",
+    "acceptance": "npm install exit 0",
+    "verify": "npm install --no-audit --no-fund",
+    "passes": true,
+    "evidence": "verify exit 0: npm install --no-audit --no-fund"
+  },
+  {
+    "id": "C2",
+    "description": "정적 빌드",
+    "acceptance": "npm run build exit 0",
+    "verify": "npm run build",
+    "passes": true,
+    "evidence": "verify exit 0: npm run build"
+  },
+  {
+    "id": "C3",
+    "description": "사이트 감사(링크·메타·JSON-LD·NAP·브랜드 표기·금지표현)",
+    "acceptance": "audit exit 0",
+    "verify": "python3 scripts/audit_site.py dist",
+    "passes": true,
+    "evidence": "verify exit 0: python3 scripts/audit_site.py dist"
+  }
+]

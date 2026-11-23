@@ -1,0 +1,31 @@
+---
+/** 선형 SVG 아이콘 (stroke 1.6, currentColor). 장식용이면 aria-hidden. */
+interface Props { name: string; label?: string; class?: string }
+const { name, label, class: cls } = Astro.props;
+const paths: Record<string, string> = {
+  phone: '<path d="M5 4h3l1.5 4-2 1.3a11 11 0 0 0 7.2 7.2L16 14.5l4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>',
+  map: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21Z"/><circle cx="12" cy="10" r="2.4"/>',
+  route: '<circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.8"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  car: '<path d="M4 15.5V12l2-5h12l2 5v3.5"/><path d="M3 15.5h18V18H3z"/><circle cx="7.5" cy="18.5" r="1.3"/><circle cx="16.5" cy="18.5" r="1.3"/><path d="M5.5 12h13"/>',
+  won: '<path d="M4 6l3.5 12L12 8l4.5 10L20 6"/><path d="M3 11h18M3 14h18"/>',
+  train: '<rect x="6" y="3.5" width="12" height="13" rx="3"/><path d="M6 11h12M9 20l-1.5 1.5M15 20l1.5 1.5"/><circle cx="9.5" cy="14" r=".6"/><circle cx="14.5" cy="14" r=".6"/>',
+  bus: '<rect x="5" y="3.5" width="14" height="14" rx="2.5"/><path d="M5 11h14M8 20v-2.5M16 20v-2.5"/><circle cx="8.5" cy="14.5" r=".6"/><circle cx="15.5" cy="14.5" r=".6"/>',
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  exam: '<circle cx="12" cy="12" r="3"/><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/>',
+  progressive: '<rect x="3.5" y="6" width="17" height="12" rx="5"/><path d="M6.5 11h11M8.5 14.5h7"/>',
+  kids: '<circle cx="12" cy="8" r="3.2"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/><path d="M9.6 8h4.8"/>',
+  contact: '<circle cx="12" cy="12" r="8.5"/><path d="M5 10.5c2-1.5 4.3-2.2 7-2.2s5 .7 7 2.2"/>',
+  sun: '<path d="M2.5 9.5h19"/><path d="M4 9.5c0 4 1.5 6 4.2 6s3.3-2.3 3.8-4.2c.5 1.9 1.1 4.2 3.8 4.2S20 13.5 20 9.5"/>',
+  glasses: '<circle cx="6.5" cy="14" r="3.5"/><circle cx="17.5" cy="14" r="3.5"/><path d="M10 14c.6-.8 3.4-.8 4 0M3 14 4.5 7.5M21 14l-1.5-6.5"/>',
+  shield: '<path d="M12 3.5 19 6v5.5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-2.5Z"/><path d="m9 12 2.2 2.2L15.5 10"/>',
+  book: '<path d="M4 5.5A2 2 0 0 1 6 3.5h13v15H6a2 2 0 0 0-2 2Z"/><path d="M4 20.5v-15M8 8h7"/>',
+  star: '<path d="m12 4 2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6Z"/>',
+  external: '<path d="M14 4.5h5.5V10M19.5 4.5 11 13M18 14v4.5a1 1 0 0 1-1 1H5.5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1H10"/>',
+};
+const body = paths[name] ?? '';
+---
+<svg class={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+  role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'} focusable="false" set:html={body} />

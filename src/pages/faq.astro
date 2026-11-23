@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import FaqList from '../components/FaqList.astro';
+import { storeFaq } from '../data/faq';
+import { services } from '../data/services';
+import { faqSchema } from '../lib/schema';
+const crumbs = [ { name: '홈', path: '/' }, { name: '자주 묻는 질문', path: '/faq/' } ];
+const groups = [
+  { id: 'store', title: '매장 이용', items: storeFaq },
+  ...services.map((s) => ({ id: s.slug, title: s.name, items: s.faq })),
+];
+// FAQPage 마크업은 매장 공통 FAQ 만 — 서비스 FAQ 는 각 서비스 페이지에서 마크업(중복 방지)
+---
+<Base
+  title="자주 묻는 질문 | 영업시간·주차·가격·시력검사 | 부천역 남문안경"
+  description="부천역 남문안경 자주 묻는 질문: 위치, 영업시간, 주차, 안경 가격, 취급 브랜드, 시력검사, 누진다초점, 어린이 안경, 콘택트렌즈, 선글라스."
+  crumbs={crumbs}
+  schema={[faqSchema(storeFaq)]}
+>
+  <PageHero eyebrow="FAQ" title="자주 묻는 질문" lead="방문 전 가장 많이 물어보시는 내용을 모았습니다. 더 궁금한 점은 전화로 물어보세요." />
+  <section class="section">
+    <div class="container narrow">
+      <nav class="jump" aria-label="질문 분류">
+        {groups.map((g) => <a href={`#${g.id}`}>{g.title}</a>)}
+      </nav>
+      {groups.map((g) => (
+        <section class="group" id={g.id} aria-labelledby={`h-${g.id}`}>
+          <h2 id={`h-${g.id}`}>{g.title}</h2>
+          <FaqList items={g.items} />
+        </section>
+      ))}
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .jump a {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    text-decoration: none;
+    color: var(--ink-2);
+    font-weight: 600;
+    font-size: 0.92rem;
+    background: var(--surface);
+  }
+  .jump a:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .group + .group {
+    margin-top: 48px;
+  }
+  .group h2 {
+    font-size: 1.35rem;
+  }
+</style>

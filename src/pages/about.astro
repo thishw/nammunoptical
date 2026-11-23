@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import ReviewKeywords from '../components/ReviewKeywords.astro';
+import { store, yearsInBusiness, walkText, lensBrandsText, frameBrandsText, careerText, aftercareText } from '../data/store';
+const years = yearsInBusiness();
+const crumbs = [ { name: '홈', path: '/' }, { name: '소개', path: '/about/' } ];
+---
+<Base
+  title={`남문안경 소개 | ${store.founded}년 개업 · 대표 안경사 ${store.optician.name} | 부천역 안경원`}
+  description={`${store.founded}년 개업 때부터 ${years}년 동안 같은 자리를 지켜 온 부천역 남부광장 앞 남문안경. 개업 때부터 ${careerText}의 ${store.optician.name} 대표 안경사가 직접 운영합니다.`}
+  crumbs={crumbs}
+>
+  <PageHero eyebrow={`Since ${store.founded}`} title={`같은 자리에서 ${years}년, 남문안경`} lead={`남문안경은 ${store.founded}년 부천역 남부광장 앞 지금 자리에서 문을 열었습니다. 개업 때부터 ${store.optician.role} ${store.optician.name}이 운영하고 있습니다.`} />
+  <section class="section">
+    <div class="container about">
+      <div class="prose">
+        <h2>부천역 남부광장 앞, {store.founded}년부터 같은 자리</h2>
+        <p>
+          남문안경은 {store.founded}년 개업 이후 {years}년 동안 한 번도 자리를 옮기지 않았습니다. 매장은 {store.landmark}, {walkText} 거리에 있습니다.
+          부모님 안경을 맞추던 가게에서 자녀의 안경을 맞추는, 가족이 함께 찾는 안경원입니다.
+        </p>
+        <p>
+          네이버 방문자 리뷰에는 “15년 단골”, “가족 모두 여기서 맞춘다”, “서울로 이사 가도 여기로 온다”는 이야기가 남아 있습니다.
+        </p>
+        <h2 id="optician">대표 안경사 {store.optician.name}</h2>
+        <p>
+          {store.optician.name} 대표 안경사는 {careerText}의 안경사로, {store.founded}년 개업 때부터 남문안경을 운영하고 있습니다. 방문자 리뷰에서 “설명이 자세해요”, “친절해요”, “A/S가 세심해요”가 자주 꼽힙니다.
+        </p>
+        <p>
+          매장에는 {store.staffNote.replace('함께합니다', '함께 일합니다')}. 대표 안경사의 오랜 경험에 요즘 감각을 더해 얼굴과 생활에 맞는 안경을 골라 드립니다.
+        </p>
+        <h2>남문안경에서 안경을 맞추면</h2>
+        <ol>
+          <li><strong>측정은 꼼꼼하게</strong> — 자동굴절검사기로 측정한 값에 교정시력 확인과 양안시 검사를 더해 처방값을 정합니다.</li>
+          <li><strong>설명은 자세하게</strong> — 측정 결과와 렌즈·테 선택지를 설명해 드립니다.</li>
+          <li><strong>선택지는 넓게</strong> — 실속형 안경부터 {lensBrandsText} 렌즈, {frameBrandsText} 브랜드 테까지 다양하게 갖추고 있습니다.</li>
+          <li><strong>맞춘 뒤에도</strong> — {aftercareText}입니다. 착용 후 불편하면 안경을 가지고 다시 들러 주세요.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">방문자 리뷰</p>
+        <h2>손님들이 말하는 남문안경</h2>
+      </div>
+      <ReviewKeywords />
+    </div>
+  </section>
+  <CtaBand />
+</Base>

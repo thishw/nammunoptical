@@ -1,0 +1,153 @@
+---
+import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+import '@fontsource/fraunces/latin-500.css';
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { store, formatHours, telHref, brandLine, parkingText } from '../data/store';
+import { services } from '../data/services';
+import { siteConfig, nav } from '../data/site';
+import { opticianSchema, websiteSchema, personSchema, breadcrumbSchema, graph, abs } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  crumbs?: { name: string; path: string }[];
+  schema?: object[];
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const { title, description, crumbs, schema = [], ogType = 'website', noindex = false } = Astro.props;
+const site = Astro.site!;
+const path = Astro.url.pathname;
+const canonical = abs(site, path);
+const storeImage = abs(site, '/og-default.jpg'); // Optician image 는 페이지와 무관하게 고정
+const ogImage = Astro.props.ogImage ?? storeImage;
+const ogImageAlt = Astro.props.ogImageAlt ?? '부천역 남문안경 매장 외관';
+
+const nodes = [opticianSchema(site, storeImage), websiteSchema(site), personSchema(site), ...schema];
+if (crumbs && crumbs.length > 1) nodes.push(breadcrumbSchema(site, crumbs));
+const jsonLd = JSON.stringify(graph(...nodes)).replace(/</g, '\\u003c');
+const current = (href: string) => (href === '/' ? path === '/' : path.startsWith(href) && !(href === '/services/' && path.startsWith('/services/eye-exam/')));
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  {siteConfig.gtmId && (
+    <script is:inline define:vars={{ id: siteConfig.gtmId }}>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',id);
+    </script>
+  )}
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  {!noindex && <link rel="canonical" href={canonical} />}
+  <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+  {siteConfig.naverSiteVerification && <meta name="naver-site-verification" content={siteConfig.naverSiteVerification} />}
+  {siteConfig.googleSiteVerification && <meta name="google-site-verification" content={siteConfig.googleSiteVerification} />}
+  <meta name="theme-color" content="#f7f6f2" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="geo.region" content="KR-41" />
+  <meta name="geo.placename" content="부천시 소사구" />
+  <meta name="geo.position" content={`${store.geo.lat};${store.geo.lng}`} />
+  <meta name="ICBM" content={`${store.geo.lat}, ${store.geo.lng}`} />
+
+  <meta property="og:type" content={ogType} />
+  <meta property="og:site_name" content="남문안경" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  {!noindex && <meta property="og:url" content={canonical} />}
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:alt" content={ogImageAlt} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="남문안경 안경 가이드" href="/rss.xml" />
+  <script type="application/ld+json" set:html={jsonLd} />
+</head>
+<body>
+  {siteConfig.gtmId && (
+    <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${siteConfig.gtmId}`} height="0" width="0" style="display:none;visibility:hidden" title="GTM"></iframe></noscript>
+  )}
+  <a class="skip-link" href="#main">본문 바로가기</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="/">
+        <Logo />
+        <span class="brand-name"><strong>남문안경</strong><span>SINCE 1988</span></span>
+      </a>
+      <nav class="nav" aria-label="주요 메뉴">
+        {nav.map((n) => <a href={n.href} aria-current={current(n.href) ? 'page' : undefined}>{n.label}</a>)}
+      </nav>
+      <a class="btn btn--primary header-call" href={telHref} data-track="call_header"><Icon name="phone" />{store.phone}</a>
+      <details class="menu">
+        <summary><Icon name="menu" /><span class="sr-only">메뉴</span></summary>
+        <div class="menu-panel">
+          <a href="/">홈</a>
+          {nav.map((n) => <a href={n.href} aria-current={current(n.href) ? 'page' : undefined}>{n.label}</a>)}
+          <a href={telHref}>전화 {store.phone}</a>
+        </div>
+      </details>
+    </div>
+  </header>
+
+  {crumbs && crumbs.length > 1 && <Breadcrumbs items={crumbs} />}
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><Logo /><strong>남문안경</strong></div>
+          <p>{store.founded}년부터 같은 자리, 부천역 남부광장 앞 안경원입니다. 개업 때부터 {store.optician.role} {store.optician.name}이 운영합니다.</p>
+          <dl>
+            <dt>주소</dt><dd>{store.address.full} ({store.address.lot})</dd>
+            <dt>전화</dt><dd><a href={telHref}>{store.phone}</a></dd>
+            <dt>영업</dt><dd>{formatHours()} · {store.hours.note}</dd>
+            {parkingText && <><dt>주차</dt><dd>가능</dd></>}
+          </dl>
+        </div>
+        <div>
+          <h2>서비스</h2>
+          <ul>
+            {services.map((s) => <li><a href={`/services/${s.slug}/`}>{s.name}</a></li>)}
+            <li><a href="/brands/">취급 브랜드</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>안내</h2>
+          <ul>
+            <li><a href="/about/">남문안경 소개</a></li>
+            <li><a href="/guide/">안경 가이드</a></li>
+            <li><a href="/location/">오시는 길</a></li>
+            <li><a href="/faq/">자주 묻는 질문</a></li>
+            <li><a href={store.links.naverPlace} rel="noopener" target="_blank">네이버 지도에서 보기<span class="sr-only"> (새 창)</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>대표 렌즈 브랜드 {brandLine(store.brands.lenses)} · 대표 테 브랜드 {brandLine(store.brands.frames)} 다수 취급</p>
+        <p>© {new Date().getFullYear()} 남문안경. 안경원 검사는 안과 진료를 대신하지 않습니다.</p>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="action-bar" aria-label="빠른 연락">
+    <a href={telHref} data-track="call_bar"><Icon name="phone" />전화하기</a>
+    <a href={store.links.naverDirections} target="_blank" rel="noopener" data-track="directions_bar"><Icon name="route" />길찾기<span class="sr-only"> (새 창)</span></a>
+    <a href={store.links.naverPlace} target="_blank" rel="noopener" data-track="naver_place_bar"><Icon name="map" />지도<span class="sr-only"> (새 창)</span></a>
+  </nav>
+</body>
+</html>

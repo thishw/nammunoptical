@@ -1,0 +1,518 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import FaqList from '../components/FaqList.astro';
+import ReviewKeywords from '../components/ReviewKeywords.astro';
+import storefront from '../assets/photos/storefront.jpg';
+import { store, formatHours, telHref, yearsInBusiness, walkText, walkTextLong, busText, parkingText, priceText, lensBrandsText, frameBrandsText, examText, paymentText, aftercareText, careerText } from '../data/store';
+import { services } from '../data/services';
+import { storeFaq } from '../data/faq';
+
+const years = yearsInBusiness();
+const guides = (await getCollection('guide')).sort((a, b) => b.data.updated.valueOf() - a.data.updated.valueOf()).slice(0, 3);
+const homeFaq = storeFaq.slice(0, 5); // 화면 표시만 — FAQPage 마크업은 /faq/ 한 곳에서
+const asOf = store.reviews.asOf.replaceAll('-', '.');
+const sub = store.transit.subway;
+
+const steps = [
+  { t: '상담', d: '불편한 점, 주로 보는 거리와 생활 습관을 여쭙니다.' },
+  { t: '자동굴절검사', d: '자동굴절검사기로 근시·원시·난시 상태를 측정합니다.' },
+  { t: '교정시력 확인', d: '렌즈를 바꿔 보며 선명하고 편안한 값을 찾습니다.' },
+  { t: '양안시 검사', d: '두 눈이 함께 초점을 맞추는 능력을 확인합니다.' },
+  { t: '테·렌즈 선택', d: '얼굴형·도수·용도에 맞춰 함께 고릅니다.' },
+  { t: '피팅·사후 조정', d: '코받침과 다리를 맞추고, 불편하면 다시 조정합니다.' },
+];
+---
+<Base
+  title="부천역 안경원 남문안경 | 1988년부터 같은 자리 · 연중무휴"
+  description={`${walkText}, ${store.landmark} 남문안경. ${store.founded}년 개업 때부터 같은 자리에서 ${store.optician.name} 대표 안경사가 운영합니다. 자동굴절검사기·양안시 검사, 누진다초점, 콘택트렌즈. ${[priceText && `가격 ${priceText}`, parkingText, `매일 ${formatHours()} 연중무휴`].filter(Boolean).join(', ')}.`}
+>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">부천역 남부광장 앞 · {store.founded}년 개업</p>
+        <h1>부천역 안경원,<br /><span class="accent">남문안경</span></h1>
+        <p class="lead">
+          {store.founded}년부터 {years}년 동안 같은 자리에서, 가족이 함께 찾는 동네 안경원입니다.
+          자동굴절검사기와 양안시 검사로 꼼꼼히 측정하고, 다양한 테와 렌즈 중에서 얼굴과 생활에 맞는 안경을 함께 고릅니다.
+        </p>
+        <ul class="chips" aria-label="매장 핵심 정보">
+          <li><Icon name="train" />{walkText}</li>
+          <li><Icon name="clock" />매일 {formatHours()} · 연중무휴</li>
+          {parkingText && <li><Icon name="car" />{parkingText}</li>}
+          {priceText && <li><Icon name="won" />{priceText}</li>}
+        </ul>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={telHref} data-track="call_hero"><Icon name="phone" />전화 {store.phone}</a>
+          <a class="btn btn--ghost" href="/location/"><Icon name="map" />오시는 길</a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="남문안경 연혁">
+        <p class="since">SINCE</p>
+        <p class="year serif-num">{store.founded}</p>
+        <svg class="hero-glasses" viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="62" cy="50" r="34" />
+          <circle cx="178" cy="50" r="34" />
+          <path d="M96 44c8-12 40-12 48 0" />
+          <path d="M28 44 8 30M212 44l20-14" />
+          <path d="M44 34a22 22 0 0 1 14-6" opacity=".45" />
+          <path d="M160 34a22 22 0 0 1 14-6" opacity=".45" />
+        </svg>
+        <p class="hero-card-line">같은 자리 <strong>{years}년</strong> · {store.optician.role} {store.optician.name}</p>
+        <a class="hero-review" href="#reviews">
+          <Icon name="star" />
+          <span>네이버 방문자 리뷰 <strong>{store.reviews.count}건</strong> · 평점 <strong>{store.reviews.rating.toFixed(2)}</strong> <span class="muted">({asOf} 기준)</span></span>
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- FACT BLOCK (GEO) -->
+  <section class="section section--tint" aria-labelledby="facts-title">
+    <div class="container facts">
+      <div>
+        <p class="eyebrow">한눈에 보기</p>
+        <h2 id="facts-title">남문안경은 어떤 곳인가요?</h2>
+        <p class="lead">
+          남문안경은 {store.founded}년 개업 후 {years}년 동안 같은 자리를 지켜 온 부천역 남부광장 앞 안경원입니다. 개업 때부터 {store.optician.role} {store.optician.name}이 운영하며,
+          시력검사부터 안경·누진다초점·선글라스, 콘택트렌즈, 착용 후 피팅까지 한곳에서 상담합니다. 연중무휴로 공휴일에도 문을 엽니다.
+        </p>
+      </div>
+      <dl class="fact-list">
+        <div><dt>개업</dt><dd>{store.founded}년 · 같은 자리에서 {years}년</dd></div>
+        <div><dt>대표 안경사</dt><dd>{store.optician.name} ({careerText} · 개업 때부터 운영)</dd></div>
+        <div><dt>주소</dt><dd>{store.address.full}<br /><span class="muted small">{store.landmark} · 지번 {store.address.lot}</span></dd></div>
+        <div><dt>교통</dt><dd>{walkTextLong}<br /><span class="muted small">{busText}</span></dd></div>
+        <div><dt>영업시간</dt><dd>{formatHours()}<br /><span class="muted small">{store.hours.note}</span></dd></div>
+        <div><dt>전화</dt><dd><a href={telHref}>{store.phone}</a></dd></div>
+        <div><dt>검사</dt><dd>{examText}{store.examMinutes && <><br /><span class="muted small">보통 {store.examMinutes} 소요</span></>}</dd></div>
+        {priceText && <div><dt>가격</dt><dd>{priceText}</dd></div>}
+        <div><dt>A/S</dt><dd>{aftercareText}</dd></div>
+        <div><dt>결제</dt><dd>{paymentText}</dd></div>
+        {parkingText && <div><dt>주차</dt><dd>가능</dd></div>}
+      </dl>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="section" aria-labelledby="why-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">남문안경을 찾는 이유</p>
+        <h2 id="why-title">오래 다니는 단골이 많은 데에는 이유가 있습니다</h2>
+      </div>
+      <div class="grid grid--3">
+        <article class="card why">
+          <p class="why-num serif-num">{years}<small>년</small></p>
+          <h3>같은 자리에서 쌓은 신뢰</h3>
+          <p>{store.founded}년 개업 때부터 {careerText}의 {store.optician.name} 대표 안경사가 같은 자리를 지켜 왔습니다. {store.staffNote}. 리뷰에는 “15년 단골”, “가족 모두 여기서 맞춘다”는 이야기가 많습니다.</p>
+        </article>
+        <article class="card why">
+          <p class="why-num serif-num">2<small>단계 측정</small></p>
+          <h3>꼼꼼한 검안</h3>
+          <p>자동굴절검사기로 굴절 상태를 측정하고, 양안시 검사로 두 눈이 함께 편한지 확인합니다. 리뷰에서도 “설명이 자세해요”가 자주 꼽힙니다.</p>
+        </article>
+        <article class="card why">
+          {store.priceFrom && <p class="why-num serif-num">{store.priceFrom / 10000}<small>만원부터</small></p>}
+          <h3>다양한 상품, 합리적인 가격</h3>
+          <p>실속형 안경부터 {lensBrandsText} 렌즈, {frameBrandsText} 브랜드 테까지 폭넓게 갖췄습니다. 방문자가 가장 많이 고른 키워드는 “상품이 다양해요”입니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXAM STEPS -->
+  <section class="section section--tint" aria-labelledby="steps-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">안경 맞춤 과정</p>
+        <h2 id="steps-title">잘 보이고, 오래 써도 편한 안경을 위한 6단계</h2>
+        <p class="lead">처음 오셔도 단계마다 결과를 설명해 드립니다.</p>
+      </div>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li>
+            <span class="step-n serif-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.t}</h3>
+            <p>{s.d}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="steps-more"><a href="/services/eye-exam/">시력검사·안경 맞춤 자세히 보기 →</a></p>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section" aria-labelledby="svc-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">서비스</p>
+        <h2 id="svc-title">안경부터 렌즈, 선글라스까지</h2>
+      </div>
+      <div class="grid grid--3">
+        {services.map((s) => (
+          <a class="card" href={`/services/${s.slug}/`}>
+            <span class="icon-badge"><Icon name={s.icon} /></span>
+            <h3>{s.name}</h3>
+            <p>{s.short}</p>
+            <span class="more">자세히 보기 <Icon name="arrow" /></span>
+          </a>
+        ))}
+        <a class="card card--brand" href="/brands/">
+          <span class="icon-badge"><Icon name="glasses" /></span>
+          <h3>대표 취급 브랜드</h3>
+          <p>렌즈 {lensBrandsText}, 안경테 {frameBrandsText} 국내외 다수 브랜드.</p>
+          <span class="more">브랜드 보기 <Icon name="arrow" /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="section section--tint" id="reviews" aria-labelledby="rv-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">방문자 리뷰</p>
+        <h2 id="rv-title">손님들이 직접 고른 남문안경의 장점</h2>
+      </div>
+      <ReviewKeywords />
+    </div>
+  </section>
+
+  <!-- GUIDE -->
+  {guides.length > 0 && (
+    <section class="section" aria-labelledby="guide-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">안경 가이드</p>
+          <h2 id="guide-title">안경 고르기 전에 알아두면 좋은 이야기</h2>
+        </div>
+        <div class="grid grid--3">
+          {guides.map((g) => (
+            <a class="card" href={`/guide/${g.id}/`}>
+              <span class="icon-badge"><Icon name="book" /></span>
+              <h3>{g.data.title}</h3>
+              <p>{g.data.description}</p>
+              <span class="more">읽어보기 <Icon name="arrow" /></span>
+            </a>
+          ))}
+        </div>
+        <p class="steps-more"><a href="/guide/">가이드 전체 보기 →</a></p>
+      </div>
+    </section>
+  )}
+
+  <!-- LOCATION -->
+  <section class="section section--tint" aria-labelledby="loc-title">
+    <div class="container loc">
+      <div>
+        <p class="eyebrow">오시는 길</p>
+        <h2 id="loc-title">{sub.station} {sub.exit}에서 걸어서 {sub.walkMin}분</h2>
+        <p class="lead">{store.address.full}. 부천자유시장 맞은편, “NAMMUN · 남문안경” 간판을 찾아오세요.</p>
+        <ul class="loc-list">
+          <li><Icon name="train" /><span><strong>지하철</strong> {walkTextLong}</span></li>
+          <li><Icon name="bus" /><span><strong>버스</strong> {busText}</span></li>
+          {parkingText && <li><Icon name="car" /><span><strong>주차</strong> 가능</span></li>}
+        </ul>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={store.links.naverDirections} target="_blank" rel="noopener"><Icon name="route" />네이버 길찾기<span class="sr-only"> (새 창)</span></a>
+          <a class="btn btn--ghost" href="/location/">자세한 길 안내</a>
+        </div>
+      </div>
+      <figure class="loc-photo">
+        <Image src={storefront} alt="부천역 남문안경 매장 외관 — NAMMUN 남문안경 간판과 전화번호 654-9540" widths={[480, 800]} sizes="(min-width: 900px) 440px, 100vw" loading="lazy" />
+        <figcaption>남문안경 매장 외관 (부천자유시장 맞은편)</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" aria-labelledby="faq-title">
+    <div class="container narrow">
+      <div class="section-head">
+        <p class="eyebrow">자주 묻는 질문</p>
+        <h2 id="faq-title">방문 전에 많이 물어보세요</h2>
+      </div>
+      <FaqList items={homeFaq} openFirst />
+      <p class="steps-more"><a href="/faq/">질문 전체 보기 →</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding: clamp(36px, 7vw, 88px) 0 clamp(48px, 8vw, 96px);
+    background:
+      radial-gradient(1200px 400px at 85% -10%, rgb(29 74 57 / 0.08), transparent 60%),
+      var(--paper);
+  }
+  .hero-grid {
+    display: grid;
+    gap: 36px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1.25fr 1fr;
+      gap: 56px;
+    }
+  }
+  .hero h1 {
+    margin-bottom: 20px;
+  }
+  .accent {
+    color: var(--green);
+  }
+  .hero .lead {
+    max-width: 560px;
+    margin-bottom: 24px;
+  }
+  .chips {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chips li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+  .chips :global(svg) {
+    width: 17px;
+    height: 17px;
+    color: var(--green);
+  }
+  .hero-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: clamp(28px, 4vw, 40px);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .hero-card::after {
+    content: '';
+    position: absolute;
+    inset: auto -40px -60px auto;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: var(--brass-soft);
+    z-index: 0;
+  }
+  .hero-card > * {
+    position: relative;
+    z-index: 1;
+  }
+  .since {
+    font-family: var(--font-serif);
+    letter-spacing: 0.3em;
+    font-size: 0.85rem;
+    color: var(--brass);
+    margin: 0;
+  }
+  .year {
+    font-size: clamp(4.6rem, 12vw, 7rem);
+    line-height: 0.95;
+    margin: 4px 0 18px;
+    color: var(--green);
+  }
+  .hero-glasses {
+    width: 100%;
+    max-width: 300px;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .hero-card-line {
+    margin: 0 0 18px;
+    color: var(--ink-2);
+  }
+  .hero-card-line strong {
+    color: var(--ink);
+  }
+  .hero-review {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.92rem;
+  }
+  .hero-review :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--brass);
+    flex: none;
+  }
+
+  .facts {
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 900px) {
+    .facts {
+      grid-template-columns: 1fr 1.2fr;
+      gap: 56px;
+      align-items: start;
+    }
+  }
+  .fact-list {
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+  .fact-list div {
+    display: grid;
+    grid-template-columns: 6.5em 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .fact-list dt {
+    color: var(--ink-3);
+    font-weight: 600;
+    font-size: 0.94rem;
+  }
+  .fact-list dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .why-num {
+    font-size: 2.8rem;
+    line-height: 1;
+    color: var(--green);
+    margin: 0 0 18px;
+  }
+  .why-num small {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-left: 4px;
+    color: var(--ink-2);
+  }
+
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+    counter-reset: s;
+  }
+  @media (min-width: 640px) {
+    .steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1000px) {
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .steps li {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+  }
+  .step-n {
+    display: block;
+    font-size: 1.6rem;
+    color: var(--brass);
+    margin-bottom: 8px;
+  }
+  .steps h3 {
+    margin-bottom: 6px;
+  }
+  .steps p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 0.97rem;
+  }
+  .steps-more {
+    margin: 24px 0 0;
+    font-weight: 700;
+  }
+  .steps-more a {
+    text-decoration: none;
+  }
+
+  .card--brand {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .card--brand h3,
+  .card--brand p,
+  .card--brand .more {
+    color: #fff;
+  }
+  .card--brand .icon-badge {
+    background: rgb(255 255 255 / 0.14);
+    color: #fff;
+  }
+
+  .loc {
+    display: grid;
+    gap: 36px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .loc {
+      grid-template-columns: 1.2fr 1fr;
+      gap: 56px;
+    }
+  }
+  .loc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 26px;
+    display: grid;
+    gap: 14px;
+  }
+  .loc-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .loc-list :global(svg) {
+    width: 22px;
+    height: 22px;
+    color: var(--green);
+    flex: none;
+    margin-top: 3px;
+  }
+  .loc-photo {
+    margin: 0;
+  }
+  .loc-photo :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 4.4;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+  }
+  .loc-photo figcaption {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--ink-3);
+  }
+</style>

@@ -1,0 +1,117 @@
+---
+import { store } from '../data/store';
+const r = store.reviews;
+const max = Math.max(...r.keywords.map((k) => k.count));
+---
+<div class="reviews">
+  <div class="reviews-score">
+    <p class="score serif-num">{r.rating.toFixed(2)}</p>
+    <p class="score-meta">{r.source} <strong>{r.count}건</strong></p>
+    <p class="small muted">{r.asOf.replaceAll('-', '.')} 기준 · 출처 네이버 플레이스</p>
+  </div>
+  <ul class="bars" aria-label="방문자가 많이 고른 리뷰 키워드">
+    {r.keywords.map((k) => (
+      <li>
+        <span class="bar-label">{k.label}</span>
+        <span class="bar" aria-hidden="true"><span style={`width:${Math.round((k.count / max) * 100)}%`}></span></span>
+        <span class="bar-count">{k.count}</span>
+      </li>
+    ))}
+  </ul>
+  <div class="quotes">
+    {r.quotes.map((q) => (
+      <figure>
+        <blockquote><p>“{q.text}”</p></blockquote>
+        <figcaption>네이버 방문자 리뷰 · {q.date.replaceAll('-', '.')}</figcaption>
+      </figure>
+    ))}
+  </div>
+</div>
+
+<style>
+  .reviews {
+    display: grid;
+    gap: 28px;
+  }
+  @media (min-width: 900px) {
+    .reviews {
+      grid-template-columns: 240px 1fr;
+      column-gap: 48px;
+    }
+    .quotes {
+      grid-column: 1 / -1;
+    }
+  }
+  .score {
+    font-size: 4.2rem;
+    line-height: 1;
+    margin: 0 0 8px;
+    color: var(--green);
+  }
+  .score-meta {
+    margin: 0 0 4px;
+    font-weight: 600;
+  }
+  .bars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+  .bars li {
+    display: grid;
+    grid-template-columns: minmax(0, 8.5em) minmax(48px, 1fr) 2.2em;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+  }
+  .bar {
+    height: 10px;
+    border-radius: 99px;
+    background: var(--green-soft);
+    overflow: hidden;
+  }
+  .bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--green-2);
+  }
+  .bar-count {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-3);
+  }
+  .quotes {
+    display: grid;
+    gap: 14px;
+  }
+  @media (min-width: 760px) {
+    .quotes {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  figure {
+    margin: 0;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  blockquote {
+    margin: 0;
+    font-weight: 500;
+  }
+  blockquote p {
+    margin: 0;
+  }
+  figcaption {
+    font-size: 0.82rem;
+    color: var(--ink-3);
+  }
+</style>

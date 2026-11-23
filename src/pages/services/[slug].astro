@@ -1,0 +1,114 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Prose from '../../components/Prose.astro';
+import FaqList from '../../components/FaqList.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { services, type Service } from '../../data/services';
+import { faqSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Service };
+const allGuides = await getCollection('guide');
+const related = s.related.map((id) => {
+  const g = allGuides.find((x) => x.id === id);
+  if (!g) throw new Error(`services.ts: '${s.slug}' 의 related 가이드 '${id}' 없음`);
+  return g;
+});
+const others = services.filter((o) => o.slug !== s.slug);
+const crumbs = [
+  { name: '홈', path: '/' },
+  { name: '서비스', path: '/services/' },
+  { name: s.name, path: `/services/${s.slug}/` },
+];
+---
+<Base title={s.metaTitle} description={s.description} crumbs={crumbs} schema={[faqSchema(s.faq)]}>
+  <PageHero eyebrow={s.name} title={s.h1} lead={s.lead} />
+  <div class="section">
+    <div class="container layout">
+      <article class="prose">
+        <Prose sections={s.sections} />
+        <h2>자주 묻는 질문</h2>
+        <FaqList items={s.faq} />
+      </article>
+      <aside class="side">
+        {related.length > 0 && (
+          <div class="card">
+            <h2 class="side-title">관련 가이드</h2>
+            <ul class="side-list">
+              {related.map((g) => <li><a href={`/guide/${g.id}/`}><Icon name="book" />{g.data.title}</a></li>)}
+            </ul>
+          </div>
+        )}
+        <div class="card">
+          <h2 class="side-title">다른 서비스</h2>
+          <ul class="side-list">
+            {others.map((o) => <li><a href={`/services/${o.slug}/`}><Icon name={o.icon} />{o.name}</a></li>)}
+            <li><a href="/brands/"><Icon name="glasses" />대표 취급 브랜드</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+  <CtaBand />
+</Base>
+<style>
+  .layout {
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 1000px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 64px;
+    }
+    .side {
+      position: sticky;
+      top: 96px;
+      align-self: start;
+    }
+  }
+  .prose > :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .side {
+    display: grid;
+    gap: 16px;
+  }
+  .side-title {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  .side-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 4px;
+  }
+  .side-list a {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 8px 0;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .side-list a:hover {
+    color: var(--green);
+  }
+  .side-list :global(svg) {
+    width: 18px;
+    height: 18px;
+    color: var(--green);
+    flex: none;
+    margin-top: 2px;
+  }
+</style>

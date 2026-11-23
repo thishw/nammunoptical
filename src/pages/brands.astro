@@ -1,0 +1,135 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { store } from '../data/store';
+const crumbs = [ { name: '홈', path: '/' }, { name: '브랜드', path: '/brands/' } ];
+const groups = [
+  {
+    key: 'lenses',
+    title: '안경 렌즈',
+    intro: '도수와 생활 환경에 맞는 렌즈 설계를 고를 수 있도록 여러 렌즈 브랜드를 다룹니다.',
+    items: store.brands.lenses,
+    more: true,
+    notes: {
+      ZEISS: '독일 광학 브랜드. 단초점·누진다초점 등 다양한 렌즈 설계.',
+      HOYA: '일본 안경 렌즈 브랜드. 단초점부터 다초점까지 폭넓은 렌즈.',
+      SHOWA: '합리적인 가격대의 안경 렌즈 선택지.',
+    } as Record<string, string>,
+  },
+  {
+    key: 'frames',
+    title: '안경테',
+    intro: '국내외 브랜드 안경테를 매장에서 직접 써 보고 고를 수 있습니다.',
+    items: store.brands.frames,
+    more: true,
+    notes: {
+      'Salvatore Ferragamo': '이탈리아 패션 브랜드의 안경테와 선글라스.',
+      Oakley: '스포츠·아웃도어 선글라스와 안경테로 잘 알려진 브랜드.',
+      CAZAL: '독일 아이웨어 브랜드. 개성 있는 디자인의 안경테와 선글라스.',
+    } as Record<string, string>,
+  },
+  {
+    key: 'sunglasses',
+    title: '선글라스',
+    intro: '브랜드 선글라스와 도수 선글라스를 매장에서 직접 써 보고 고를 수 있습니다. 세부 모델은 전화로 문의해 주세요.',
+    items: store.brands.sunglasses,
+    more: true,
+    notes: {} as Record<string, string>,
+  },
+  {
+    key: 'contact',
+    title: '콘택트렌즈',
+    intro: '일회용·정기교체용 콘택트렌즈를 판매합니다. 찾으시는 제품의 재고는 방문 전 전화로 확인해 주세요.',
+    items: store.brands.contactLenses,
+    more: true,
+    notes: { ACUVUE: '일회용·정기교체용 소프트 콘택트렌즈.' } as Record<string, string>,
+  },
+];
+---
+<Base
+  title="대표 브랜드 | 자이스·호야·쇼와 등 렌즈, 페레가모·오클리·카잘 등 다수 | 부천역 남문안경"
+  description="부천역 남문안경 대표 취급 브랜드. 렌즈는 자이스·호야·쇼와 등, 안경테·선글라스는 페레가모·오클리·카잘 등 국내외 다수, 콘택트렌즈는 아큐브·클리어원데이 등을 매장에서 만나보세요."
+  crumbs={crumbs}
+>
+  <PageHero eyebrow="브랜드" title="대표 취급 브랜드" lead="아래는 잘 알려진 대표 브랜드 일부입니다. 이 밖에도 국내외 여러 브랜드의 안경테와 렌즈를 갖추고 있습니다." />
+  <section class="section">
+    <div class="container groups">
+      {groups.map((g) => (
+        <section class="group" aria-labelledby={`g-${g.key}`}>
+          <div>
+            <h2 id={`g-${g.key}`}>{g.title}</h2>
+            <p class="muted">{g.intro}</p>
+          </div>
+          <ul class="brand-grid">
+            {g.items.map((b) => (
+              <li class="card">
+                <p class="wordmark">{b.name}</p>
+                {b.ko !== b.name && <p class="ko">{b.ko}</p>}
+                {g.notes[b.name] && <p class="note">{g.notes[b.name]}</p>}
+              </li>
+            ))}
+            {g.more && (
+              <li class="card more-card">
+                <p class="wordmark">+ 다수</p>
+                <p class="note">이 외에도 다양한 브랜드를 매장에서 만나보실 수 있습니다.</p>
+              </li>
+            )}
+          </ul>
+        </section>
+      ))}
+      <p class="notice">재고와 모델은 시기에 따라 달라집니다. 찾으시는 브랜드나 모델이 있으면 방문 전 {store.phone}로 확인해 주세요. 브랜드명은 각 권리자의 상표입니다.</p>
+    </div>
+  </section>
+  <CtaBand title="원하는 브랜드가 있는지 전화로 확인해 보세요" />
+</Base>
+<style>
+  .groups {
+    display: grid;
+    gap: 56px;
+  }
+  .group {
+    display: grid;
+    gap: 20px;
+  }
+  @media (min-width: 900px) {
+    .group {
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+    }
+  }
+  .brand-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+  .wordmark {
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    letter-spacing: 0.02em;
+    margin: 0;
+    color: var(--ink);
+  }
+  .ko {
+    margin: 2px 0 10px;
+    color: var(--brass);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .note {
+    margin: 0;
+    font-size: 0.93rem;
+  }
+  .more-card {
+    background: var(--green-soft);
+    border-style: dashed;
+    border-color: #b9d0c3;
+  }
+  .more-card .wordmark {
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+</style>

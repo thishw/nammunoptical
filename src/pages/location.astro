@@ -1,0 +1,196 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import storefront from '../assets/photos/storefront.jpg';
+import { store, formatHours, telHref, walkText, walkTextLong, parkingText } from '../data/store';
+import { faqSchema } from '../lib/schema';
+const crumbs = [ { name: '홈', path: '/' }, { name: '오시는 길', path: '/location/' } ];
+const sub = store.transit.subway;
+const [bus1, bus2] = store.transit.bus;
+const faq = [
+  { q: '부천역에서 남문안경까지 어떻게 가나요?', a: `${walkTextLong}입니다. ${store.landmark}에 있습니다.` },
+  { q: '가장 가까운 버스정류장은 어디인가요?', a: `${bus1.stop} 정류장에서 걸어서 약 ${bus1.walkMin}분${bus2 ? `, ${bus2.stop} 정류장에서 약 ${bus2.walkMin}분` : ''} 거리입니다.` },
+  ...(parkingText ? [{ q: '차를 가지고 가도 되나요?', a: `네, 주차 가능합니다. 길이 헷갈리시면 출발 전 ${store.phone}로 전화해 주세요.` }] : []),
+];
+const mapSrc = `https://maps.google.com/maps?q=${store.geo.lat},${store.geo.lng}&z=17&hl=ko&output=embed`;
+---
+<Base
+  title={`오시는 길 | ${walkText}${parkingText ? ' · 주차 가능' : ''} | 남문안경`}
+  description={`남문안경 위치: ${store.address.full}(${store.address.lot}), ${store.landmark}. ${walkText}, ${bus1.stop} 정류장 도보 ${bus1.walkMin}분${parkingText ? ', 주차 가능' : ''}. ${formatHours()}.`}
+  crumbs={crumbs}
+  schema={[faqSchema(faq)]}
+>
+  <PageHero eyebrow="오시는 길" title={`${sub.station} ${sub.exit}에서 걸어서 ${sub.walkMin}분`} lead={`${store.address.full} · ${store.landmark}`}>
+    <div class="btn-row hero-btns">
+      <a class="btn btn--primary" href={store.links.naverDirections} target="_blank" rel="noopener"><Icon name="route" />네이버 길찾기<span class="sr-only"> (새 창)</span></a>
+      <a class="btn btn--ghost" href={store.links.kakaoMap} target="_blank" rel="noopener"><Icon name="map" />카카오맵<span class="sr-only"> (새 창)</span></a>
+      <a class="btn btn--ghost" href={telHref}><Icon name="phone" />{store.phone}</a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container loc-grid">
+      <div class="map-wrap">
+        <iframe src={mapSrc} title="남문안경 위치 지도" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" tabindex="-1" aria-hidden="true"></iframe>
+        <a class="map-overlay" href={store.links.naverPlace} target="_blank" rel="noopener">
+          <span><Icon name="external" />네이버 지도에서 크게 보기<span class="sr-only"> (새 창)</span></span>
+        </a>
+      </div>
+      <div>
+        <dl class="info">
+          <div><dt><Icon name="map" />주소</dt><dd>{store.address.full}<br /><span class="muted small">지번 {store.address.lot}</span></dd></div>
+          <div><dt><Icon name="train" />지하철</dt><dd>{walkTextLong}</dd></div>
+          <div><dt><Icon name="bus" />버스</dt><dd>{store.transit.bus.map((b, i) => <>{i > 0 && <br />}{b.stop.replace('.', '.\u200b')} 정류장 도보 {b.walkMin}분({b.meters}m)</>)}</dd></div>
+          {parkingText && <div><dt><Icon name="car" />주차</dt><dd>가능</dd></div>}
+          <div><dt><Icon name="clock" />영업</dt><dd>{formatHours()}<br /><span class="muted small">{store.hours.note}</span></dd></div>
+          <div><dt><Icon name="phone" />전화</dt><dd><a href={telHref}>{store.phone}</a></dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">이 간판을 찾아오세요</p>
+        <h2>매장 외관</h2>
+      </div>
+      <div class="photos">
+        <figure>
+          <Image src={storefront} alt="남문안경 매장 정면 — NAMMUN 남문안경 간판, 전화번호 654-9540" widths={[480, 900]} sizes="(min-width: 900px) 420px, 100vw" loading="lazy" />
+          <figcaption>매장 정면 · NAMMUN 남문안경 간판</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2>찾아오시는 길 질문</h2>
+      <div class="faq">
+        {faq.map((f) => <details><summary>{f.q}</summary><div class="answer"><p>{f.a}</p></div></details>)}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+<style>
+  .hero-btns {
+    margin-top: 8px;
+  }
+  .loc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  @media (min-width: 900px) {
+    .loc-grid {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 48px;
+    }
+  }
+  .map-wrap {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--green-soft);
+    aspect-ratio: 4 / 3;
+  }
+  .map-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .map-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 14px;
+    text-decoration: none;
+  }
+  .map-overlay span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    color: var(--green);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 10px 14px;
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+  }
+  .map-overlay :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+  .info {
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+  .info div {
+    display: grid;
+    grid-template-columns: 6.5em minmax(0, 1fr);
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .info dt {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-weight: 700;
+    color: var(--ink-2);
+  }
+  .info dt :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--green);
+    margin-top: 4px;
+    flex: none;
+  }
+  .info dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  .photos {
+    display: grid;
+    gap: 16px;
+  }
+  @media (min-width: 900px) {
+    .photos {
+      grid-template-columns: minmax(0, 420px);
+    }
+  }
+  .photos figure {
+    margin: 0;
+  }
+  .photos :global(img) {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+  }
+  .photos :global(img) {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  .photos figure:first-child :global(img) {
+    object-position: 50% 28%;
+  }
+  @media (min-width: 900px) {
+    .photos :global(img) {
+      aspect-ratio: 3 / 3.4;
+    }
+  }
+  figcaption {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: var(--ink-3);
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+const guides = (await getCollection('guide')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'ko'));
+const crumbs = [ { name: '홈', path: '/' }, { name: '안경 가이드', path: '/guide/' } ];
+---
+<Base
+  title="안경 가이드 | 렌즈 선택·얼굴형 안경테·적응 기간 | 부천역 남문안경"
+  description="안경 렌즈 굴절률, 얼굴형별 안경테, 새 안경 적응 기간, 누진다초점, 양안시 검사, 블루라이트 렌즈까지. 1988년 개업 부천역 남문안경이 정리한 안경 정보."
+  crumbs={crumbs}
+>
+  <PageHero eyebrow="안경 가이드" title="안경, 알고 고르면 더 편합니다" lead="안경을 맞추기 전에 자주 받는 질문을 출처와 함께 정리했습니다." />
+  <section class="section">
+    <div class="container grid grid--2">
+      {guides.map((g) => (
+        <a class="card" href={`/guide/${g.id}/`}>
+          <span class="icon-badge"><Icon name="book" /></span>
+          <h2 class="h3">{g.data.title}</h2>
+          <p>{g.data.description}</p>
+          <span class="more">읽어보기 <Icon name="arrow" /></span>
+        </a>
+      ))}
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+<style>
+  .h3 { font-size: 1.2rem; margin-bottom: 8px; }
+</style>
