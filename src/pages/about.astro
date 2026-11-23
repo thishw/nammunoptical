@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import ReviewKeywords from '../components/ReviewKeywords.astro';
+import PhotoGrid from '../components/PhotoGrid.astro';
 import { store, yearsInBusiness, walkText, lensBrandsText, frameBrandsText, careerText, aftercareText } from '../data/store';
 const years = yearsInBusiness();
 const crumbs = [ { name: '홈', path: '/' }, { name: '소개', path: '/about/' } ];
@@ -39,6 +40,16 @@ const crumbs = [ { name: '홈', path: '/' }, { name: '소개', path: '/about/' }
           <li><strong>맞춘 뒤에도</strong> — {aftercareText}입니다. 착용 후 불편하면 안경을 가지고 다시 들러 주세요.</li>
         </ol>
       </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">매장 안</p>
+        <h2>편하게 앉아 상담하고, 직접 써 보고 고르는 곳</h2>
+      </div>
+      <PhotoGrid keys={['interior-wide', 'lounge', 'display-counter']} />
+      <p><a href="/gallery/">매장 사진 전체 보기 →</a></p>
     </div>
   </section>
   <section class="section section--tint">

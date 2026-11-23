@@ -13,6 +13,7 @@ export const nav = [
   { href: '/brands/', label: '브랜드' },
   { href: '/guide/', label: '안경 가이드' },
   { href: '/about/', label: '소개' },
+  { href: '/gallery/', label: '매장 사진' },
   { href: '/location/', label: '오시는 길' },
   { href: '/faq/', label: 'FAQ' },
 ];

@@ -5,6 +5,7 @@ import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import storefront from '../assets/photos/storefront.jpg';
+import PhotoGrid from '../components/PhotoGrid.astro';
 import { store, formatHours, telHref, walkText, walkTextLong, parkingText } from '../data/store';
 import { faqSchema } from '../lib/schema';
 const crumbs = [ { name: '홈', path: '/' }, { name: '오시는 길', path: '/location/' } ];
@@ -64,6 +65,9 @@ const mapSrc = `https://maps.google.com/maps?q=${store.geo.lat},${store.geo.lng}
           <figcaption>매장 정면 · NAMMUN 남문안경 간판</figcaption>
         </figure>
       </div>
+      <div class="more-photos">
+        <PhotoGrid keys={['front-sign', 'front-window', 'sign-vertical']} />
+      </div>
     </div>
   </section>
 
@@ -78,6 +82,9 @@ const mapSrc = `https://maps.google.com/maps?q=${store.geo.lat},${store.geo.lng}
   <CtaBand />
 </Base>
 <style>
+  .more-photos {
+    margin-top: 24px;
+  }
   .hero-btns {
     margin-top: 8px;
   }

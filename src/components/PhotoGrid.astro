@@ -1,0 +1,27 @@
+---
+/** 매장 사진 그리드 — keys 순서대로. cols: 모바일 1열 → 데스크톱 2/3열. */
+import { Image } from 'astro:assets';
+import { photo, photoSource } from '../data/photos';
+interface Props { keys: string[]; cols?: 2 | 3; credit?: boolean; eager?: boolean }
+const { keys, cols = 3, credit = true, eager = false } = Astro.props;
+const list = keys.map(photo);
+---
+<div class={`photo-grid photo-grid--${cols}`}>
+  {list.map((p, i) => (
+    <figure>
+      <Image src={p.src} alt={p.alt} widths={[400, 740]} sizes={cols === 2 ? '(min-width: 900px) 520px, 100vw' : '(min-width: 960px) 340px, (min-width: 640px) 50vw, 100vw'} loading={eager && i === 0 ? 'eager' : 'lazy'} />
+      <figcaption>{p.caption}<span class="yr"> · {p.year}</span></figcaption>
+    </figure>
+  ))}
+</div>
+{credit && <p class="photo-credit">{photoSource}</p>}
+<style>
+  .photo-grid { display: grid; gap: 14px; }
+  @media (min-width: 640px) { .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 960px) { .photo-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  figure { margin: 0; min-width: 0; }
+  figure :global(img) { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line); display: block; }
+  figcaption { margin-top: 8px; font-size: 0.92rem; color: var(--ink-3); }
+  .yr { opacity: 0.8; }
+  .photo-credit { margin-top: 14px; font-size: 0.85rem; color: var(--ink-3); }
+</style>

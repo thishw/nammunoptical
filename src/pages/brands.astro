@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { store } from '../data/store';
+import PhotoGrid from '../components/PhotoGrid.astro';
 const crumbs = [ { name: '홈', path: '/' }, { name: '브랜드', path: '/brands/' } ];
 const groups = [
   {
@@ -78,12 +79,22 @@ const groups = [
           </ul>
         </section>
       ))}
+      <div class="brand-photos">
+        <h2>매장에서 직접 써 보세요</h2>
+        <PhotoGrid keys={['display-wall', 'frames-table', 'display-counter']} />
+      </div>
       <p class="notice">재고와 모델은 시기에 따라 달라집니다. 찾으시는 브랜드나 모델이 있으면 방문 전 {store.phone}로 확인해 주세요. 브랜드명은 각 권리자의 상표입니다.</p>
     </div>
   </section>
   <CtaBand title="원하는 브랜드가 있는지 전화로 확인해 보세요" />
 </Base>
 <style>
+  .brand-photos {
+    margin-top: 56px;
+  }
+  .brand-photos h2 {
+    margin-bottom: 18px;
+  }
   .groups {
     display: grid;
     gap: 56px;

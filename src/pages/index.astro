@@ -6,6 +6,7 @@ import Icon from '../components/Icon.astro';
 import FaqList from '../components/FaqList.astro';
 import ReviewKeywords from '../components/ReviewKeywords.astro';
 import storefront from '../assets/photos/storefront.jpg';
+import PhotoGrid from '../components/PhotoGrid.astro';
 import { store, formatHours, telHref, yearsInBusiness, walkText, walkTextLong, busText, parkingText, priceText, lensBrandsText, frameBrandsText, examText, paymentText, aftercareText, careerText } from '../data/store';
 import { services } from '../data/services';
 import { storeFaq } from '../data/faq';
@@ -121,6 +122,10 @@ const steps = [
           <h3>다양한 상품, 합리적인 가격</h3>
           <p>실속형 안경부터 {lensBrandsText} 렌즈, {frameBrandsText} 브랜드 테까지 폭넓게 갖췄습니다. 방문자가 가장 많이 고른 키워드는 “상품이 다양해요”입니다.</p>
         </article>
+      </div>
+      <div class="home-photos">
+        <PhotoGrid keys={['interior-wide', 'display-wall', 'frames-table']} credit={false} />
+        <p class="home-photos-more"><a href="/gallery/">매장 사진 더 보기 →</a></p>
       </div>
     </div>
   </section>
@@ -244,6 +249,13 @@ const steps = [
 </Base>
 
 <style>
+  .home-photos {
+    margin-top: 28px;
+  }
+  .home-photos-more {
+    margin-top: 12px;
+    text-align: right;
+  }
   .hero {
     padding: clamp(36px, 7vw, 88px) 0 clamp(48px, 8vw, 96px);
     background:
