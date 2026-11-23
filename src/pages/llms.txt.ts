@@ -15,7 +15,8 @@ export const GET: APIRoute = async ({ site }) => {
 - 상호: ${store.name} (간판 영문 표기 ${store.alternateName.join(', ')})
 - 개업: ${store.founded}년 (개업 이후 같은 자리)
 - 대표 안경사: ${store.optician.name} (${careerText}, 개업 때부터 운영). ${store.staffNote}
-- 주소: ${store.address.full} (지번 ${store.address.lot}), ${store.landmark}
+- 주소: ${store.address.full} (지번 ${store.address.lot}${store.address.postalCode ? `, 우편번호 ${store.address.postalCode}` : ''}), ${store.landmark}
+- 위치: 위도 ${store.geo.lat}, 경도 ${store.geo.lng} (네이버 지도 ${store.links.naverPlace})
 - 교통: ${walkTextLong}, ${busText}
 - 전화: ${store.phone}
 - 영업시간: ${formatHours()} (${store.hours.note})
