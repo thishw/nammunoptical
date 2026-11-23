@@ -28,7 +28,7 @@ export const store = {
     locality: '부천시',
     district: '소사구',
     street: '경인로 212-1',
-    postalCode: '14711' as string | null, // 운영자 확인 2026-11-23
+    postalCode: '14711' as string | null, // 도로명주소 조회 + 운영자 확인 2026-11-23
   },
   geo: { lat: 37.4831924, lng: 126.7789727 },
   landmark: '부천자유시장 맞은편',
@@ -129,6 +129,8 @@ export const priceText = store.priceFrom ? `${store.priceFrom.toLocaleString('ko
 export const formatHours = () => `${store.hours.opens}–${store.hours.closes}`;
 
 export const telHref = `tel:${store.phone.replace(/-/g, '')}`;
+/** 전화번호 + 조사. 9540(구오사공)은 받침으로 끝나 '으로'. */
+export const phoneEuro = `${store.phone}으로`;
 
 export const brandLine = (list: readonly { name: string; ko: string }[], sep = ' · ') =>
   `${list.map((b) => b.ko).join(sep)} 등`;

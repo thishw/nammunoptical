@@ -27,7 +27,7 @@ export interface StorePhoto {
 
 export const photos: StorePhoto[] = [
   { key: 'storefront', src: storefront, alt: '부천역 남문안경 매장 정면 — NAMMUN 남문안경 간판과 전화번호 654-9540', caption: '매장 정면 · NAMMUN 간판', year: 2019, group: 'outside' },
-  { key: 'front-sign', src: frontSign, alt: '남문안경 간판 — 녹색 남문안경 글씨와 전화번호 654-9540, 아래로 유리 진열창', caption: '남문안경 간판', year: 2016, group: 'outside' },
+  { key: 'front-sign', src: frontSign, alt: '남문안경 간판 — 연녹색 바탕에 남색 남문안경 글씨와 GLASSES HOUSE 문구, 전화번호 654-9540, 아래로 유리 진열창', caption: '남문안경 간판', year: 2016, group: 'outside' },
   { key: 'front-window', src: frontWindow, alt: '남문안경 진열창 — 유리창 너머로 보이는 선글라스 진열대와 주차 안내 표지', caption: '진열창과 입구', year: 2016, group: 'outside' },
   { key: 'sign-vertical', src: signVertical, alt: '건물 기둥의 남문안경 세로 간판과 파란 현수막', caption: '세로 간판', year: 2016, group: 'outside' },
   { key: 'interior-wide', src: interiorWide, alt: '남문안경 매장 내부 전경 — 벽면을 따라 이어진 안경테 진열장과 유리 진열대, 가운데 상담 소파', caption: '매장 내부 전경', year: 2016, group: 'inside' },
@@ -43,4 +43,4 @@ export const photo = (key: string) => {
   if (!p) throw new Error(`photo not found: ${key}`);
   return p;
 };
-export const photoSource = '사진: 남문안경 (2016년 촬영 사진은 현재 모습과 다를 수 있습니다)';
+export const photoSource = '사진: 남문안경 (2016·2019년 촬영 — 현재 모습과 다를 수 있습니다)';

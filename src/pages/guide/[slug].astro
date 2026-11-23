@@ -4,7 +4,7 @@ import Base from '../../layouts/Base.astro';
 import FaqList from '../../components/FaqList.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Icon from '../../components/Icon.astro';
-import { store } from '../../data/store';
+import { store, telHref, walkText, formatHours, parkingText } from '../../data/store';
 // 바이라인은 매장(조직)만 — 개인 감수 표기는 운영자 확인 후 (스펙 미결 6)
 import { articleSchema, faqSchema, abs } from '../../lib/schema';
 
@@ -62,6 +62,15 @@ const crumbs = [
       )}
       <article class="prose">
         <Content />
+        <aside class="store-box" aria-label="남문안경 매장 안내">
+          <p class="store-box-title">{store.name} 매장 안내</p>
+          <ul>
+            <li>{store.founded}년 개업 · {store.address.full} ({store.landmark})</li>
+            <li>{walkText}{parkingText ? ` · ${parkingText}` : ''}</li>
+            <li>매일 {formatHours()} · {store.hours.note}</li>
+            <li>전화 <a href={telHref}>{store.phone}</a> · <a href="/location/">오시는 길</a></li>
+          </ul>
+        </aside>
         {g.data.faq.length > 0 && (
           <>
             <h2 id="faq">자주 묻는 질문</h2>
@@ -94,6 +103,24 @@ const crumbs = [
   <CtaBand title="내 눈에 맞는 안경, 직접 상담받아 보세요" />
 </Base>
 <style>
+  .store-box {
+    margin: 32px 0 8px;
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+  }
+  .store-box-title {
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+  .store-box ul {
+    margin: 0;
+    padding-left: 1.1em;
+  }
+  .store-box li + li {
+    margin-top: 4px;
+  }
   .meta {
     display: flex;
     flex-wrap: wrap;

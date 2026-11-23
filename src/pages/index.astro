@@ -118,7 +118,7 @@ const steps = [
           <p>자동굴절검사기로 굴절 상태를 측정하고, 양안시 검사로 두 눈이 함께 편한지 확인합니다. 리뷰에서도 “설명이 자세해요”가 자주 꼽힙니다.</p>
         </article>
         <article class="card why">
-          {store.priceFrom && <p class="why-num serif-num">{store.priceFrom / 10000}<small>만원부터</small></p>}
+          {store.priceFrom && <p class="why-num serif-num"><span aria-hidden="true">{store.priceFrom / 10000}<small>만원부터</small></span><span class="sr-only">{priceText}</span></p>}
           <h3>다양한 상품, 합리적인 가격</h3>
           <p>실속형 안경부터 {lensBrandsText} 렌즈, {frameBrandsText} 브랜드 테까지 폭넓게 갖췄습니다. 방문자가 가장 많이 고른 키워드는 “상품이 다양해요”입니다.</p>
         </article>
@@ -230,7 +230,7 @@ const steps = [
       </div>
       <figure class="loc-photo">
         <Image src={storefront} alt="부천역 남문안경 매장 외관 — NAMMUN 남문안경 간판과 전화번호 654-9540" widths={[480, 800]} sizes="(min-width: 900px) 440px, 100vw" loading="lazy" />
-        <figcaption>남문안경 매장 외관 (부천자유시장 맞은편)</figcaption>
+        <figcaption>남문안경 매장 외관 (부천자유시장 맞은편) · 2019년 촬영</figcaption>
       </figure>
     </div>
   </section>

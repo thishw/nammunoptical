@@ -390,6 +390,16 @@ def main():
                 if need not in body:
                     err(f"llms.txt 에 {need} 없음")
 
+    # 가이드 마크다운에 매장 사실 리터럴 금지 (F-002) — 매장 안내는 guide/[slug].astro 가 store.ts 로 그린다
+    guide_dir = ROOT / "src" / "content" / "guide"
+    founded = re.search(r"\bfounded:\s*(\d{4})", STORE_TS)
+    literals = [PHONE, STREET, "도보 약"] + ([f"{founded.group(1)}년 개업"] if founded else [])
+    for md in sorted(guide_dir.glob("*.md")):
+        for n, line in enumerate(md.read_text(encoding="utf-8").splitlines(), 1):
+            for lit in literals:
+                if lit and lit in line:
+                    err(f"{md.relative_to(ROOT)}:{n}: 매장 사실 리터럴 '{lit}' — store.ts 로 출력")
+
     print(
         f"[audit] 페이지 {len(pages)}개 (색인 {len(indexable)}) · sitemap {len(sm_urls)} URL · 사이트 {SITE}"
     )

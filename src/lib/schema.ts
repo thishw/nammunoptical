@@ -104,7 +104,7 @@ export function breadcrumbSchema(site: URL | string, crumbs: { name: string; pat
 export function faqSchema(items: QA[]) {
   return {
     '@type': 'FAQPage',
-    mainEntity: items.map((f) => ({
+    mainEntity: items.filter((f) => f.schema !== false).map((f) => ({
       '@type': 'Question',
       name: f.q,
       acceptedAnswer: { '@type': 'Answer', text: f.a },

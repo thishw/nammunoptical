@@ -1,6 +1,4 @@
-import { store, walkText, lensBrandsText, contactLensText, sunglassBrandsText, examTimeText, aftercareText } from './store';
-
-const tel = store.phone;
+import { store, phoneEuro, walkText, lensBrandsText, contactLensText, sunglassBrandsText, examTimeText, aftercareText } from './store';
 
 /**
  * 서비스 페이지 데이터. 본문과 FAQPage 구조화 데이터가 같은 값을 쓴다.
@@ -8,7 +6,8 @@ const tel = store.phone;
  */
 
 export type Section = { h: string; p?: string[]; list?: string[]; table?: { head: string[]; rows: string[][] } };
-export type QA = { q: string; a: string };
+/** schema: false 면 본문에만 보이고 FAQPage 마크업에서는 뺀다(다른 페이지와 같은 질문). */
+export type QA = { q: string; a: string; schema?: boolean };
 
 export type Service = {
   slug: string;
@@ -68,7 +67,7 @@ export const services: Service[] = [
     faq: [
       {
         q: '시력검사는 얼마나 걸리나요?',
-        a: `${examTimeText ?? '검사 시간은 눈 상태에 따라 다릅니다'}. 상담과 테·렌즈 선택까지 포함하면 조금 더 걸릴 수 있으니, 대기 없이 받고 싶으시면 방문 전 ${tel}로 전화해 주세요.`,
+        a: `${examTimeText ?? '검사 시간은 눈 상태에 따라 다릅니다'}. 상담과 테·렌즈 선택까지 포함하면 조금 더 걸릴 수 있으니, 대기 없이 받고 싶으시면 방문 전 ${phoneEuro} 전화해 주세요.`,
       },
       {
         q: '안과 처방전이 있으면 그대로 맞춰 주나요?',
@@ -76,6 +75,7 @@ export const services: Service[] = [
       },
       {
         q: '안경을 맞추고 어지러우면 어떻게 하나요?',
+        schema: false,
         a: '새 안경은 며칠간 적응이 필요할 수 있습니다. 일주일 넘게 어지럽거나 두통이 계속되면 안경을 가지고 매장에 다시 와서 처방값과 피팅 상태를 확인받으세요. 증상이 심하거나 시력이 갑자기 변했다면 안과 진료가 먼저입니다.',
       },
     ],
@@ -126,7 +126,8 @@ export const services: Service[] = [
       },
       {
         q: '적응하는 데 얼마나 걸리나요?',
-        a: '개인차가 있지만 보통 며칠에서 2주 정도 꾸준히 쓰면 익숙해집니다. 그 이후에도 불편하면 피팅 높이와 처방을 다시 확인해야 합니다.',
+        a: '개인차가 있지만 보통 2~3주 꾸준히 쓰면 익숙해집니다. 그 뒤에도 불편하면 피팅 높이와 처방을 다시 확인해야 합니다. 자세한 적응 요령은 누진다초점 적응 가이드를 참고하세요.',
+        schema: false,
       },
     ],
     related: ['progressive-lens-adaptation', 'lens-index', 'eye-exam-interval'],
@@ -171,7 +172,7 @@ export const services: Service[] = [
       },
       {
         q: '처음 안경을 쓰는 아이도 바로 맞출 수 있나요?',
-        a: '어린 아이가 처음 안경을 쓰는 경우에는 안과에서 조절마비 굴절검사 등 정밀 검사를 먼저 받고 처방전을 가져오시는 것을 권합니다.',
+        a: '어린아이가 처음 안경을 쓰는 경우에는 안과에서 조절마비 굴절검사 등 정밀 검사를 먼저 받고 처방전을 가져오시는 것을 권합니다.',
       },
     ],
     related: ['eye-exam-interval', 'face-shape-frames', 'glasses-care'],
@@ -187,7 +188,7 @@ export const services: Service[] = [
     keywords: ['부천역 렌즈', '부천 콘택트렌즈', '아큐브 부천', '부천 렌즈 맞추는 곳'],
     icon: 'contact',
     lead:
-      `안경과 렌즈를 함께 쓰는 분이 많습니다. 남문안경은 ${contactLensText} 콘택트렌즈를 판매하며, 안경 도수와 렌즈 도수의 차이도 함께 안내해 드립니다. 원하시는 제품 재고는 방문 전 ${tel}로 확인하시면 정확합니다.`,
+      `안경과 렌즈를 함께 쓰는 분이 많습니다. 남문안경은 ${contactLensText} 콘택트렌즈를 판매하며, 안경 도수와 렌즈 도수의 차이도 함께 안내해 드립니다. 원하시는 제품 재고는 방문 전 ${phoneEuro} 확인하시면 정확합니다.`,
     sections: [
       {
         h: '안경 도수와 렌즈 도수는 다를 수 있습니다',
@@ -208,7 +209,7 @@ export const services: Service[] = [
     faq: [
       {
         q: '어떤 콘택트렌즈 브랜드가 있나요?',
-        a: `${contactLensText} 콘택트렌즈를 판매합니다. 찾으시는 제품의 재고는 방문 전 ${tel}로 확인해 주세요.`,
+        a: `${contactLensText} 콘택트렌즈를 판매합니다. 찾으시는 제품의 재고는 방문 전 ${phoneEuro} 확인해 주세요.`,
       },
       {
         q: '렌즈를 처음 끼는데 괜찮을까요?',
@@ -249,7 +250,7 @@ export const services: Service[] = [
     faq: [
       {
         q: '어떤 선글라스 브랜드가 있나요?',
-        a: `${sunglassBrandsText} 여러 브랜드의 선글라스를 갖추고 있습니다. 세부 모델과 재고는 방문 전 ${tel}로 문의해 주세요.`,
+        a: `${sunglassBrandsText} 여러 브랜드의 선글라스를 갖추고 있습니다. 세부 모델과 재고는 방문 전 ${phoneEuro} 문의해 주세요.`,
       },
       {
         q: '가지고 있는 선글라스에 도수를 넣을 수 있나요?',

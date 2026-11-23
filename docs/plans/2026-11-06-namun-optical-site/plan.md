@@ -72,3 +72,13 @@ size: large
 - `npm run build` rc 0, `python3 scripts/audit_site.py dist` PASS rc 0
 - 남은 것: 실사 사진 보강, 지번(667-9 vs 667-12) 확인, 3차 리뷰, 보안 L-1/L-5, 배포 관련 후속
 - 2026-11-23 후속: 지번 667-9·우편번호 14711 운영자 확정(네이버 플레이스와 일치), 블로그 매장 사진 9장 반영(/gallery/), 보안 L-1(액션 SHA 고정) 해소, 공개·GA4·GSC·Bing 완료. 남은 것: 네이버 소유확인(CAPTCHA)·다음 인증(PIN), 3차 리뷰, L-5
+
+### 2026-11-24 3차 독립 리뷰 반영
+
+- 3차 리뷰: CONDITIONAL (HIGH 0 · MEDIUM 4 · LOW 10) → 전부 반영
+  - 사진 촬영연도 표기(2019 외관), 옛 간판 사진의 '이 간판을 찾아오세요' 제거
+  - 같은 의미 FAQ 의 FAQPage 중복 제거(`QA.schema=false`), 누진 적응 기간 2~3주로 통일
+  - 가이드 md 꼬리말 매장 리터럴 제거 → `guide/[slug].astro` 매장 안내 박스(store.ts) + 감사 스크립트 검사(음성 테스트 검출 확인)
+  - 조사 `phoneEuro`, 어린아이, 문장 다듬기, llms 괄호, 서비스 description 콘택트렌즈 '등', 클리어원데이 설명, 가격 카드 스크린리더
+- 보안 L-5: target=_blank 에 noopener noreferrer + 감사 검사
+- `npm run build` rc 0, `audit_site.py` PASS, 390px 가로 넘침 0

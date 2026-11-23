@@ -4,11 +4,12 @@ import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Icon from '../../components/Icon.astro';
 import { services } from '../../data/services';
+import { contactLensText } from '../../data/store';
 const crumbs = [ { name: '홈', path: '/' }, { name: '서비스', path: '/services/' } ];
 ---
 <Base
   title="서비스 안내 | 시력검사·누진다초점·어린이 안경·콘택트렌즈·선글라스 | 부천역 남문안경"
-  description="부천역 남문안경 서비스: 자동굴절검사기·양안시 검사 기반 안경 맞춤, 누진다초점 안경, 어린이·청소년 안경, 아큐브 콘택트렌즈, 도수 선글라스, 피팅."
+  description={`부천역 남문안경 서비스: 자동굴절검사기·양안시 검사 기반 안경 맞춤, 누진다초점 안경, 어린이·청소년 안경, ${contactLensText} 콘택트렌즈, 도수 선글라스, 피팅.`}
   crumbs={crumbs}
 >
   <PageHero eyebrow="서비스" title="남문안경 서비스 안내" lead="시력검사부터 안경·렌즈·선글라스 선택, 착용 후 피팅까지 한곳에서 도와드립니다." />

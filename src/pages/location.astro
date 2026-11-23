@@ -8,13 +8,14 @@ import storefront from '../assets/photos/storefront.jpg';
 import PhotoGrid from '../components/PhotoGrid.astro';
 import { store, formatHours, telHref, walkText, walkTextLong, parkingText } from '../data/store';
 import { faqSchema } from '../lib/schema';
+import { phoneEuro } from '../data/store';
 const crumbs = [ { name: '홈', path: '/' }, { name: '오시는 길', path: '/location/' } ];
 const sub = store.transit.subway;
 const [bus1, bus2] = store.transit.bus;
 const faq = [
   { q: '부천역에서 남문안경까지 어떻게 가나요?', a: `${walkTextLong}입니다. ${store.landmark}에 있습니다.` },
   { q: '가장 가까운 버스정류장은 어디인가요?', a: `${bus1.stop} 정류장에서 걸어서 약 ${bus1.walkMin}분${bus2 ? `, ${bus2.stop} 정류장에서 약 ${bus2.walkMin}분` : ''} 거리입니다.` },
-  ...(parkingText ? [{ q: '차를 가지고 가도 되나요?', a: `네, 주차 가능합니다. 길이 헷갈리시면 출발 전 ${store.phone}로 전화해 주세요.` }] : []),
+  ...(parkingText ? [{ q: '차를 가지고 가도 되나요?', a: `네, 주차 가능합니다. 길이 헷갈리시면 출발 전 ${phoneEuro} 전화해 주세요.`, schema: false }] : []),
 ];
 const mapSrc = `https://maps.google.com/maps?q=${store.geo.lat},${store.geo.lng}&z=17&hl=ko&output=embed`;
 ---
@@ -56,13 +57,13 @@ const mapSrc = `https://maps.google.com/maps?q=${store.geo.lat},${store.geo.lng}
   <section class="section section--tint">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">이 간판을 찾아오세요</p>
+        <p class="eyebrow">매장 외관 (2019년 촬영)</p>
         <h2>매장 외관</h2>
       </div>
       <div class="photos">
         <figure>
           <Image src={storefront} alt="남문안경 매장 정면 — NAMMUN 남문안경 간판, 전화번호 654-9540" widths={[480, 900]} sizes="(min-width: 900px) 420px, 100vw" loading="lazy" />
-          <figcaption>매장 정면 · NAMMUN 남문안경 간판</figcaption>
+          <figcaption>매장 정면 · NAMMUN 남문안경 간판<span class="muted"> · 2019</span></figcaption>
         </figure>
       </div>
       <div class="more-photos">

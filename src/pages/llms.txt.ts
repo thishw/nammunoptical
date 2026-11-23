@@ -19,7 +19,7 @@ export const GET: APIRoute = async ({ site }) => {
 - 위치: 위도 ${store.geo.lat}, 경도 ${store.geo.lng} (네이버 지도 ${store.links.naverPlace})
 - 교통: ${walkTextLong}, ${busText}
 - 전화: ${store.phone}
-- 영업시간: ${formatHours()} (${store.hours.note})
+- 영업시간: ${formatHours()}, ${store.hours.note}
 ${parkingText ? `- 주차: 가능\n` : ''}${priceText ? `- 가격: ${priceText}\n` : ''}- 검사: ${examText}${examTimeText ? ` (${examTimeText})` : ''}
 - A/S: ${aftercareText}
 - 결제: ${paymentText}

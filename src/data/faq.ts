@@ -1,4 +1,4 @@
-import { store, formatHours, lensBrandsText, frameBrandsText, sunglassBrandsText, examText, examTimeText, parkingText, priceText, contactLensText, paymentText, aftercareText, careerText } from './store';
+import { store, phoneEuro, formatHours, lensBrandsText, frameBrandsText, sunglassBrandsText, examText, examTimeText, parkingText, priceText, contactLensText, paymentText, aftercareText, careerText } from './store';
 import type { QA } from './services';
 
 /** 매장 공통 FAQ — 본문과 FAQPage JSON-LD 가 같은 배열을 쓴다. */
@@ -27,11 +27,11 @@ export const storeFaq: QA[] = [
   },
   {
     q: '어떤 브랜드를 취급하나요?',
-    a: `대표적으로 렌즈는 ${lensBrandsText}, 안경테는 ${frameBrandsText} 국내외 여러 브랜드를 갖추고 있습니다. 선글라스는 ${sunglassBrandsText}, 콘택트렌즈는 ${contactLensText}을 판매합니다. 세부 모델과 재고는 방문 전 ${store.phone}로 문의해 주세요.`,
+    a: `대표적으로 렌즈는 ${lensBrandsText}, 안경테는 ${frameBrandsText} 국내외 여러 브랜드를 갖추고 있습니다. 선글라스는 ${sunglassBrandsText}, 콘택트렌즈는 ${contactLensText}을 판매합니다. 세부 모델과 재고는 방문 전 ${phoneEuro} 문의해 주세요.`,
   },
   {
     q: '시력검사는 어떻게 하나요?',
-    a: `${examText.split(' · ')[0]}로 굴절 상태를 측정하고, 교정시력 확인과 양안시 검사를 거쳐 처방값을 정합니다.${examTimeText ? ` ${examTimeText}.` : ''} ${store.founded}년 개업 때부터 ${careerText}의 ${store.optician.name} 대표 안경사가 운영하고 있습니다.`,
+    a: `${examText.split(' · ')[0]}로 굴절 상태를 측정하고, 교정시력 확인과 양안시 검사를 거쳐 처방값을 정합니다.${examTimeText ? ` ${examTimeText}.` : ''} 검사와 처방은 ${careerText}의 ${store.optician.name} 대표 안경사가 직접 확인합니다.`,
   },
   {
     q: '안경 A/S는 어떻게 되나요?',
@@ -43,6 +43,6 @@ export const storeFaq: QA[] = [
   },
   {
     q: '방문 전에 연락해야 하나요?',
-    a: `방문 시간을 맞추거나 대기 없이 상담받고 싶으시면 방문 전 ${store.phone}로 전화해 주세요.`,
+    a: `방문 시간을 맞추거나 대기 없이 상담받고 싶으시면 방문 전 ${phoneEuro} 전화해 주세요.`,
   },
 ];

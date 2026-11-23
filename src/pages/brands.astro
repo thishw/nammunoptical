@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { store } from '../data/store';
+import { store, phoneEuro } from '../data/store';
 import PhotoGrid from '../components/PhotoGrid.astro';
 const crumbs = [ { name: '홈', path: '/' }, { name: '브랜드', path: '/brands/' } ];
 const groups = [
@@ -44,7 +44,7 @@ const groups = [
     intro: '일회용·정기교체용 콘택트렌즈를 판매합니다. 찾으시는 제품의 재고는 방문 전 전화로 확인해 주세요.',
     items: store.brands.contactLenses,
     more: true,
-    notes: { ACUVUE: '일회용·정기교체용 소프트 콘택트렌즈.' } as Record<string, string>,
+    notes: { ACUVUE: '일회용·정기교체용 소프트 콘택트렌즈.', '클리어원데이': '하루 쓰고 버리는 1일 착용 소프트 콘택트렌즈.' } as Record<string, string>,
   },
 ];
 ---
@@ -83,7 +83,7 @@ const groups = [
         <h2>매장에서 직접 써 보세요</h2>
         <PhotoGrid keys={['display-wall', 'frames-table', 'display-counter']} />
       </div>
-      <p class="notice">재고와 모델은 시기에 따라 달라집니다. 찾으시는 브랜드나 모델이 있으면 방문 전 {store.phone}로 확인해 주세요. 브랜드명은 각 권리자의 상표입니다.</p>
+      <p class="notice">재고와 모델은 시기에 따라 달라집니다. 찾으시는 브랜드나 모델이 있으면 방문 전 {phoneEuro} 확인해 주세요. 브랜드명은 각 권리자의 상표입니다.</p>
     </div>
   </section>
   <CtaBand title="원하는 브랜드가 있는지 전화로 확인해 보세요" />
