@@ -8,7 +8,7 @@
 - **확인되지 않은 값은 출력하지 않는다** — `null` 이면 화면·구조화 데이터 어디에도 나오지 않는다.
 - **분석**: GTM `GTM-WP3P69JF` 하나만 넣는다. GA4(`G-4EF3MVLQYH`)는 GTM 안의 Google 태그로 로드한다 — gtag 를 따로 넣지 않는다(중복 수집).
 
-설계 스펙 `docs/specs/2026-11-06-namun-optical-site.md` · 구현 계획 `docs/plans/2026-11-06-namun-optical-site/plan.md`
+설계 스펙 `docs/specs/2026-11-06-namun-optical-site.md` · 구현 계획 `docs/plans/2026-11-06-namun-optical-site/plan.md` · 다른 매장에 재현하는 매뉴얼 `docs/manual/local-store-seo-geo-playbook.md`
 
 ## 구조
 
