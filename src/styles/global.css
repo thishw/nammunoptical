@@ -6,7 +6,7 @@
   --surface: #ffffff;
   --ink: #17201b;
   --ink-2: #47524b;
-  --ink-3: #737c76;
+  --ink-3: #69716c; /* AA 4.5:1 이상 (paper·surface 위) — 2026-11-25 대비 보정 */
   --line: #e2e0d8;
   --line-2: #cfccc1;
   --green: #1d4a39;
